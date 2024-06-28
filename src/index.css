@@ -1,0 +1,331 @@
+
+:root {
+  --background-color: #f0f0f0;
+  --navbar-color: #c4d0cf;
+  --modal-color: #ffffff;
+  --hoverDetails-color: rgba(0, 0, 0, 0.5);
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+.navbar {
+  background-color: var(--navbar-color);
+}
+
+.modal {
+  background-color: var(--modal-color);
+}
+
+.hover-details {
+  background-color: var(--hoverDetails-color);
+}
+
+::-webkit-scrollbar {
+  margin-top: 100px;
+  width: 10px;
+  border-radius: 10px;
+  background-color: #333;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #3a3a3a;
+}
+
+
+.Navbar {
+  width: 100%;
+  height: 80px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: top 0.3s;
+  z-index: 1;
+  
+}
+
+.search-bar {
+  position: relative;
+ 
+}
+
+.clear-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.7em;
+  position: relative;
+  right: 20px;
+}
+
+.search-bar input {
+  width: 400px;
+  margin-left: 60px;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+
+.suggestions-list {
+  position: absolute;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+
+.suggestions li {
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+  font-size: 1.2em; 
+  color: #007BFF;
+}
+
+
+
+.buttons {
+  margin-left: auto;
+}
+
+.modal-btn {
+  margin-top: 40px;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: 20px;
+  background-color: rgb(228, 228, 242);
+  border-radius: 6px;
+}
+
+.modal {
+  position: absolute;
+  top: 15%;
+  right: 10px;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 250px;
+  height: 500px;
+  border-radius: 20px;
+}
+
+.modal-footer {
+  padding: 10px;
+  border-top: 1px solid #8e8a8a;
+  text-align: center;
+  margin-top: auto;
+}
+
+/* Home.css */
+
+.container {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+}
+
+.sidebar {
+  margin-top:100px ;
+  width: 50px; /* Minimal width when not hovered */
+  background-color: #111; /* Dark background for the sidebar */
+  color: #e3bdbd; /* White text for better visibility */
+  padding: 20px 5px; /* Adjust padding to fit minimal width */
+  box-sizing: border-box;
+  position: fixed; /* Fix the sidebar to the left */
+  top: 0;
+  bottom: 0;
+  overflow-y: auto; /* Allow scrolling within the sidebar if content is long */
+  transition: width 1s; /* Smooth transition for width */
+  font: 1em sans-serif;
+}
+
+.sidebar:hover {
+  width: 250px; /* Full width on hover */
+  padding: 20px; /* Full padding on hover */
+}
+
+.sidebar h2 {
+  display: none; /* Hide headings when not hovered */
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  display: none; /* Hide list items when not hovered */
+}
+
+.sidebar:hover h2,
+.sidebar:hover ul {
+  display: block; /* Show headings and list items on hover */
+}
+
+.sidebar li {
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  text-decoration: underline;
+}
+
+
+.main-content {
+  max-width: 100%;
+  margin-top: 50px;
+  margin-left: 50px; /* Minimal margin-left to fit the minimal sidebar */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Allow scrolling within the main content */
+  height: 100vh; /* Full viewport height */
+  transition: margin-left 1s; /* Smooth transition for margin-left */
+}
+
+.loading-sts{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5rem;
+  height: 5rem;
+  border: 0.6rem solid #e1a3a3;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  margin: 0 auto;
+  animation: loader 2500ms linear infinite;
+}
+
+@keyframes loader {
+  to {
+      transform: rotate(360deg);
+  }
+}
+
+.sidebar:hover ~ .main-content {
+  margin-left: 250px; /* Full margin-left to fit the expanded sidebar */
+}
+
+.preview-background {
+  width: 100%;
+  height: 400px; /* Adjust the height as needed */
+  background-size: contain; /* Show the full content of the image */
+  background-repeat: no-repeat; /* Prevent repeating the image */
+  background-position: center;
+  transition: background-image 1s ease;
+  margin-top: 50px;
+  margin-bottom: 10px; 
+  margin-left: -25%;
+}
+
+.list-items {
+  list-style: none;
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 20px;
+  background: #333; 
+ 
+  
+}
+.list-items h2{
+  font-size: 1.5rem;
+  margin-top: 0px;
+  margin-bottom: auto;
+  margin-right: 10px;
+  color: #fff;
+
+
+}
+
+.list-items ul {
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.list-items li {
+  display: flex;
+  align-items: center;
+  margin-right: 1em;
+  transition: transform 1s ease;
+  color: #fff; 
+}
+
+.list-items li:hover {
+  transform: scale(1.1);
+}
+.hoverDetails {
+  margin-left: 70%;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.hover-img{
+  position: relative;
+  margin-left: 20%;
+}
+
+.list-items img {
+  width: 100px;
+  height: auto;
+  display: block;
+}
+
+.list-items .text-content {
+  flex: 1;
+}
+
+.list-items .text-content h5 {
+  margin: 0 0 10px;
+}
+
+.list-items .text-content p {
+  margin: 5px 0;
+}
+
+.logoimg{
+  width: 150px;
+  height: 150px;
+}
+
+.show-details {
+  margin-top: 20px;
+}
+
+.show-details img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.show-details button {
+  margin-bottom: 10px;
+}
+
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+}
+
+.episode-card {
+  flex: 0 0 auto;
+  width: 300px;
+  margin-right: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
