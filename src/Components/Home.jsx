@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import "../index.css";
 import Sidebar from './Sidebar';
 import genreMapping from '../Helpers/GenreMapping';
 import TruncateText from '../Helpers/TruncateText';
 import Navbar from './Navbar';
+import GenreButtons from './genreButtons';
 
 export default function FetchRequest() {
   const [data, setData] = useState([]);
@@ -13,6 +14,11 @@ export default function FetchRequest() {
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPodcast, setSelectedPodcast] = useState(null);
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [slideshowIndex, setSlideshowIndex] = useState(0);
+  const [isSlideshowActive, setIsSlideshowActive] = useState(false);
+  const hoverTimer = useRef(null);
+  const slideshowTimer = useRef(null);
 
   useEffect(() => {
     fetch('https://podcast-api.netlify.app')
@@ -33,6 +39,29 @@ export default function FetchRequest() {
       });
   }, []);
 
+  useEffect(() => {
+    if (!hoveredItem) {
+      hoverTimer.current = setTimeout(() => {
+        setIsSlideshowActive(true);
+      }, 5000); // Start slideshow after 5 seconds of no hover
+    } else {
+      clearTimeout(hoverTimer.current);
+      setIsSlideshowActive(false);
+    }
+    return () => clearTimeout(hoverTimer.current);
+  }, [hoveredItem]);
+
+  useEffect(() => {
+    if (isSlideshowActive) {
+      slideshowTimer.current = setInterval(() => {
+        setSlideshowIndex(prevIndex => (prevIndex + 1) % data.length);
+      }, 4000); // Change slide every 3 seconds
+    } else {
+      clearInterval(slideshowTimer.current);
+    }
+    return () => clearInterval(slideshowTimer.current);
+  }, [isSlideshowActive, data.length]);
+
   const handleGenreSelect = (genre) => {
     setSelectedGenre(genre);
     setHoveredItem(null); // Reset hovered item when genre changes
@@ -46,10 +75,20 @@ export default function FetchRequest() {
     setSearchQuery(query);
   };
 
+  const handleSort = (order) => {
+    setSortOrder(order);
+  };
+
   const filteredData = data.filter(post => {
     const matchesGenre = selectedGenre ? post.genres.some(genreId => genreMapping[genreId] === selectedGenre) : true;
     const matchesSearch = searchQuery ? post.title.toLowerCase().includes(searchQuery.toLowerCase()) : true;
     return matchesGenre && matchesSearch;
+  }).sort((a, b) => {
+    if (sortOrder === 'asc') {
+      return a.title.localeCompare(b.title);
+    } else {
+      return b.title.localeCompare(a.title);
+    }
   });
 
   const uniqueGenres = [
@@ -59,15 +98,15 @@ export default function FetchRequest() {
   return (
     <div className="container">
       <Navbar podcasts={data} onSearch={handleSearch} />
-      <Sidebar genres={uniqueGenres} onGenreSelect={handleGenreSelect} />
+      <Sidebar onSort={handleSort} />
       <div className="main-content">
+        <GenreButtons genres={uniqueGenres} onGenreSelect={handleGenreSelect} selectedGenre={selectedGenre} />
         {loading && <p className='loading-sts'></p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {!error && filteredData.length > 0 && (
           <>
-            {/* Preview Background and Details */}
-            <div className="preview-background" style={{ backgroundImage: hoveredItem ? `url(${hoveredItem.image})` : 'none' }}>
-              {hoveredItem && (
+            <div className="preview-background" style={{ backgroundImage: isSlideshowActive && data.length > 0 ? `url(${data[slideshowIndex].image})` : hoveredItem ? `url(${hoveredItem.image})` : 'none' }}>
+              {hoveredItem && !isSlideshowActive && (
                 <div className="hoverDetails">
                   <h4>{hoveredItem.title}</h4>
                   <TruncateText text={hoveredItem.description} maxLength={250} />
@@ -77,9 +116,17 @@ export default function FetchRequest() {
                   <p>Last Updated: {new Date(hoveredItem.updated).toLocaleDateString()}</p>
                 </div>
               )}
+              {isSlideshowActive && data.length > 0 && (
+                <div className="hoverDetails">
+                  <h4>{data[slideshowIndex].title}</h4>
+                  <TruncateText text={data[slideshowIndex].description} maxLength={250} />
+                  <p>Seasons: {data[slideshowIndex].seasons}</p>
+                  <p>Episodes: {data[slideshowIndex].episode}</p>
+                  <p>{data[slideshowIndex].genres.map(genreId => genreMapping[genreId]).join(', ')}</p>
+                  <p>Last Updated: {new Date(data[slideshowIndex].updated).toLocaleDateString()}</p>
+                </div>
+              )}
             </div>
-
-            {/* Main List of Podcasts */}
             <div className="list-items">
               <h2>{selectedGenre ? `${selectedGenre}` : 'All Shows'}</h2>
               <ul className="horizontal-scroll">

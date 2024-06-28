@@ -58,7 +58,7 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 0.7em;
+  font-size: 10px;
   position: relative;
   right: 20px;
 }
@@ -95,7 +95,7 @@ body {
 
 .suggestions li:hover {
   background-color: #f0f0f0;
-  font-size: 1.2em; 
+  font-size: 10px; 
   color: #007BFF;
 }
 
@@ -151,7 +151,7 @@ body {
   bottom: 0;
   overflow-y: auto; /* Allow scrolling within the sidebar if content is long */
   transition: width 1s; /* Smooth transition for width */
-  font: 1em sans-serif;
+  font: 10px sans-serif;
 }
 
 .sidebar:hover {
@@ -328,4 +328,33 @@ body {
   margin-right: 20px;
   padding: 10px;
   border: 1px solid #ccc;
+}
+
+.genre-btns{
+ margin-top: 45px;
+  margin-left: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+}
+
+.genre-btn{
+  margin-left: 10px;
+  margin-right: 10px;
+  width:100px;
+  height:40px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
+  background-color: #7e858e;
+}
+
+.genre-btn:hover {
+  background-color: #0056b3;
+}
+
+.genre-btn.active {
+  background-color: #0056b3;
+  transform: scale(1.1);
 }
