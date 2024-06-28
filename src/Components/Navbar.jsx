@@ -7,7 +7,7 @@ export default function Navbar({ podcasts, onSearch }) {
   return (
     <div className="Navbar">
       <div>
-        <img className="logoimg" src="public/badpodcast-darkbg.png" alt="Logo" />
+        <img className="logoimg" src="/badpodcast-darkbg.png" alt="Logo" />
       </div>
       <SearchBar data={podcasts} onSearch={onSearch} />
       <SettingsModal />
